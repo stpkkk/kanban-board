@@ -22,7 +22,9 @@
 	--color-red: #f76e85;
 	--color-red-dark: #f53d5c;
 	--color-column-bg: #f7f7f7;
+	--color-border-gray: #e3e5e8;
 	--color-gray: #c4cad4;
+	--color-page-bg: #e5e5e5;
 }
 
 body {

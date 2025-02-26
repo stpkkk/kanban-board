@@ -1,5 +1,9 @@
-function App() {
-	return <div className='bg-amber-500'>Test</div>
-}
+import KanbanBoard from './components/KanbanBoard'
 
-export default App
+export function App() {
+	return (
+		<main className='mx-auto px-4 py-12 max-w-[952px] w-full'>
+			<KanbanBoard />
+		</main>
+	)
+}
