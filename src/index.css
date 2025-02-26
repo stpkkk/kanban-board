@@ -1,1 +1,30 @@
 @import 'tailwindcss';
+
+@font-face {
+	font-family: 'Interphases';
+	src: url('../src/assets/fonts/TT-Interphases-Pro-Variable.woff2');
+	font-weight: 400;
+	font-display: swap;
+}
+
+@theme {
+	--font-primary: 'Interphases', 'serif';
+	--color-primary: #1c2530;
+	--color-pink: #ff99e9;
+	--color-pink-dark: #ff65dd;
+	--color-blue: #66b8ff;
+	--color-blue-dark: #33a0ff;
+	--color-border-blue: #3d86f4;
+	--color-yellow: #ffd466;
+	--color-yellow-dark: #ffc633;
+	--color-green: #53c666;
+	--color-green-dark: #22c33d;
+	--color-red: #f76e85;
+	--color-red-dark: #f53d5c;
+	--color-column-bg: #f7f7f7;
+	--color-gray: #c4cad4;
+}
+
+body {
+	@apply text-primary font-primary text-[14px] leading-[18px] antialiased;
+}
