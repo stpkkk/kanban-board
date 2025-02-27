@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import { DroppableProvided } from '@hello-pangea/dnd';
 import plus from '../assets/icons/plus.svg';
 import { ColumnType } from '../types/column';
 import { Task } from '../types/task';
+import { AddTask } from './AddTask';
 
 interface ColumnProps {
   column: ColumnType;
@@ -11,6 +13,8 @@ interface ColumnProps {
 }
 
 export function Column({ column }: ColumnProps) {
+  const [isAdding, setIsAdding] = useState(false);
+
   return (
     <div className="bg-column-bg border-border-gray flex min-h-[596px] flex-col rounded-lg border text-center">
       <h2
@@ -26,18 +30,27 @@ export function Column({ column }: ColumnProps) {
       </h2>
 
       <div className="custom-scroll mr-[3.6px] h-full overflow-y-auto p-2">
-        <button className="text-border-blue flex cursor-pointer items-center justify-start gap-1">
-          <img
-            className="cursor-pointer"
-            src={plus}
-            alt="Добавить"
-            width={20}
-            height={20}
+        {isAdding ? (
+          <AddTask
+            onCancel={() => setIsAdding(false)}
+            onAdd={() => setIsAdding(false)}
           />
-          <span>Добавить</span>
-        </button>
-        <div className="mt-4 h-[500px] p-4">
-          {/* Add content here to enable scrolling */}
+        ) : (
+          <button
+            onClick={() => setIsAdding(true)}
+            className="text-border-blue flex cursor-pointer items-center justify-start gap-1"
+          >
+            <img
+              className="cursor-pointer"
+              src={plus}
+              alt="Добавить"
+              width={20}
+              height={20}
+            />
+            <span>Добавить</span>
+          </button>
+        )}
+        <div className="mt-4 h-[564px] p-4">
           {[...Array(20)].map((_, i) => (
             <p key={i} className="mb-2">
               Sample text {i + 1}
