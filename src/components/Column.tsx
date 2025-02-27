@@ -25,7 +25,7 @@ export function Column({ column }: ColumnProps) {
         {column.title}
       </h2>
 
-      <div className="h-full overflow-y-scroll p-2">
+      <div className="custom-scroll mr-[3.6px] h-full overflow-y-auto p-2">
         <button className="text-border-blue flex cursor-pointer items-center justify-start gap-1">
           <img
             className="cursor-pointer"
@@ -36,6 +36,14 @@ export function Column({ column }: ColumnProps) {
           />
           <span>Добавить</span>
         </button>
+        <div className="mt-4 h-[500px] p-4">
+          {/* Add content here to enable scrolling */}
+          {[...Array(20)].map((_, i) => (
+            <p key={i} className="mb-2">
+              Sample text {i + 1}
+            </p>
+          ))}
+        </div>
       </div>
     </div>
   );
