@@ -1,6 +1,9 @@
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { Column } from './Column';
 import { ColumnType } from '../types/column';
+import { Task } from '../types/task';
+import { useState } from 'react';
+import { TaskProvider } from '../context/TaskContext';
 
 const initialColumns: ColumnType[] = [
   { id: 'approval', title: 'На согласовании', color: 'pink' },
@@ -11,17 +14,67 @@ const initialColumns: ColumnType[] = [
 ];
 
 export default function KanbanBoard() {
+  const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({
+    approval: [],
+    new: [],
+    inProgress: [],
+    done: [],
+    revision: [],
+  });
+
   function onDragEnd() {}
 
+  const handleAddTask = (columnId: string, content: string) => {
+    const column = initialColumns.find((col) => col.id === columnId);
+    if (!column) return;
+
+    const newTask: Task = {
+      id: `task-${Date.now()}`,
+      content,
+      createdAt: new Date().toISOString(),
+    };
+
+    setTasks((prev) => ({
+      ...prev,
+      [columnId]: [...prev[columnId], newTask],
+    }));
+  };
+
+  const handleDeleteTask = (
+    columnId: string,
+    taskId: string,
+    content: string,
+  ) => {};
+
+  const handleUpdateTask = (
+    columnId: string,
+    taskId: string,
+    content: string,
+  ) => {};
+
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
-        {initialColumns.map((column) => (
-          <Droppable key={column.id} droppableId={column.id}>
-            {(provided) => <Column column={column} provided={provided} />}
-          </Droppable>
-        ))}
-      </div>
-    </DragDropContext>
+    <TaskProvider
+      value={{
+        onAddTask: handleAddTask,
+        onDeleteTask: handleDeleteTask,
+        onUpdateTask: handleUpdateTask,
+      }}
+    >
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+          {initialColumns.map((column) => (
+            <Droppable key={column.id} droppableId={column.id}>
+              {(provided) => (
+                <Column
+                  column={column}
+                  provided={provided}
+                  tasks={tasks[column.id]}
+                />
+              )}
+            </Droppable>
+          ))}
+        </div>
+      </DragDropContext>
+    </TaskProvider>
   );
 }

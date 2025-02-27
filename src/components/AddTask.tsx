@@ -1,22 +1,28 @@
 import { useState } from 'react';
 import x from '../assets/icons/x.svg';
 import check from '../assets/icons/check.svg';
+import { useTaskContext } from '../context/TaskContext';
 
 interface AddTaskProps {
   initialContent?: string;
   onCancel: () => void;
   onAdd: () => void;
+  columnId: string;
 }
 
 export function AddTask({
   initialContent = '',
   onCancel,
   onAdd,
+  columnId,
 }: AddTaskProps) {
   const [content, setContent] = useState(initialContent);
+  const { onAddTask } = useTaskContext();
 
   const handleSubmit = () => {
     if (!content.trim()) return;
+
+    onAddTask(columnId, content);
 
     setContent('');
     onAdd();

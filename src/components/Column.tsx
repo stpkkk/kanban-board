@@ -8,11 +8,11 @@ import { AddTask } from './AddTask';
 
 interface ColumnProps {
   column: ColumnType;
-  tasks?: Task[];
+  tasks: Task[];
   provided: DroppableProvided;
 }
 
-export function Column({ column }: ColumnProps) {
+export function Column({ column, tasks }: ColumnProps) {
   const [isAdding, setIsAdding] = useState(false);
 
   return (
@@ -34,6 +34,7 @@ export function Column({ column }: ColumnProps) {
           <AddTask
             onCancel={() => setIsAdding(false)}
             onAdd={() => setIsAdding(false)}
+            columnId={column.id}
           />
         ) : (
           <button
@@ -51,9 +52,9 @@ export function Column({ column }: ColumnProps) {
           </button>
         )}
         <div className="mt-4 h-[564px] p-4">
-          {[...Array(20)].map((_, i) => (
-            <p key={i} className="mb-2">
-              Sample text {i + 1}
+          {tasks.map((task) => (
+            <p key={task.id} className="mb-2">
+              <span>{task.content}</span>
             </p>
           ))}
         </div>
