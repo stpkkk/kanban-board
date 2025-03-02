@@ -29,6 +29,10 @@
   --color-page-bg: #e5e5e5;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* Custom scrollbar styles */
 .custom-scroll::-webkit-scrollbar {
   width: 6px;

@@ -6,8 +6,7 @@ import React, {
   useRef,
 } from 'react';
 import { useOutsideClick } from '../hooks/useOutsideClick';
-import menuButton from '../assets/icons/more-horizontal.svg';
-import menuButtonBlue from '../assets/icons/more-horizontal-blue.svg';
+import ThreeDotsIcon from './ThreeDotsIcon';
 
 type DropDownMenuContextType = {
   openId: string;
@@ -64,23 +63,10 @@ function Toggle({ id }: ToggleProps) {
   return (
     <div className="flex h-full flex-col p-1">
       <button
-        className="group w-[20px] cursor-pointer justify-start"
+        className="group text-secondary hover:text-border-blue justify-start"
         onClick={handleClick}
       >
-        <img
-          src={menuButton}
-          className="block group-hover:hidden"
-          alt="Контекстное меню"
-          width={20}
-          height={20}
-        />
-        <img
-          src={menuButtonBlue}
-          className="hidden group-hover:block"
-          alt="Контекстное меню"
-          width={20}
-          height={20}
-        />
+        <ThreeDotsIcon color="currentColor" />
       </button>
     </div>
   );
@@ -123,7 +109,7 @@ function ListItem({ children, icon, onClick, disabled }: ListItemProps) {
       <button
         onClick={handleClick}
         disabled={disabled}
-        className="flex w-full cursor-pointer items-center gap-2 p-2 text-center"
+        className="flex w-full items-center gap-2 p-2 text-center"
       >
         <img src={icon} alt="" width={20} height={20} />
         <span>{children}</span>

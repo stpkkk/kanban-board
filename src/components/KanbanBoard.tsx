@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { TaskProvider } from '../context/TaskContext';
 import { Column } from './Column';
 import { ColumnType } from '../types/column';
 import { Task } from '../types/task';
-import { useState } from 'react';
-import { TaskProvider } from '../context/TaskContext';
 
 const initialColumns: ColumnType[] = [
   { id: 'approval', title: 'На согласовании', color: 'pink' },

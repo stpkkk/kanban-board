@@ -1,12 +1,12 @@
-import { Task } from '../types/task';
+import { useState } from 'react';
+import { useTaskContext } from '../context/TaskContext';
 import edit from '../assets/icons/edit.svg';
 import trash from '../assets/icons/trash.svg';
 import { DropDownMenu } from './DropDownMenu';
 import Modal from './Modal';
 import ConfirmDelete from './ConfirmDelete';
-import { useTaskContext } from '../context/TaskContext';
-import { useState } from 'react';
 import { AddTask } from './AddTask';
+import { Task } from '../types/task';
 
 interface TaskCardProps {
   task: Task;

@@ -13,13 +13,13 @@ function ConfirmDelete({ content, onConfirm, onCloseModal }: Props) {
       <div className="flex justify-center gap-4">
         <button
           onClick={onConfirm}
-          className="border-gray hover:bg-red flex h-[36px] w-full max-w-[202px] cursor-pointer items-center justify-center rounded-sm border"
+          className="border-gray hover:bg-red flex h-[36px] w-full max-w-[202px] items-center justify-center rounded-sm border"
         >
           Удалить
         </button>
         <button
           onClick={onCloseModal}
-          className="border-gray hover:bg-secondary flex h-[36px] w-full max-w-[202px] cursor-pointer items-center justify-center rounded-sm border"
+          className="border-gray hover:bg-secondary flex h-[36px] w-full max-w-[202px] items-center justify-center rounded-sm border"
         >
           Отменить
         </button>

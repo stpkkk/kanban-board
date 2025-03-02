@@ -2,10 +2,10 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { DroppableProvided } from '@hello-pangea/dnd';
 import plus from '../assets/icons/plus.svg';
-import { ColumnType } from '../types/column';
-import { Task } from '../types/task';
 import { AddTask } from './AddTask';
 import TaskCard from './TaskCard';
+import { ColumnType } from '../types/column';
+import { Task } from '../types/task';
 
 interface ColumnProps {
   column: ColumnType;
@@ -44,15 +44,9 @@ export function Column({ column, tasks }: ColumnProps) {
           ) : (
             <button
               onClick={() => setIsAdding(true)}
-              className="text-border-blue flex cursor-pointer items-center justify-start gap-1"
+              className="text-border-blue flex items-center justify-start gap-1"
             >
-              <img
-                className="cursor-pointer"
-                src={plus}
-                alt="Добавить"
-                width={20}
-                height={20}
-              />
+              <img src={plus} alt="Добавить" width={20} height={20} />
               <span>Добавить</span>
             </button>
           )}

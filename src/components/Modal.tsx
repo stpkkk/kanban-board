@@ -1,5 +1,3 @@
-import type React from 'react';
-
 import {
   createContext,
   type ReactNode,
@@ -8,8 +6,8 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import x from '../assets/icons/x-gray.svg';
 import { useOutsideClick } from '../hooks/useOutsideClick';
+import CloseIcon from './CloseIcon';
 
 interface ModalProps {
   children: ReactNode;
@@ -69,13 +67,12 @@ const Window = ({ children, name }: WindowProps) => {
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[4px] transition-all duration-500">
       <div
         ref={modalRef}
-        className="fixed top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-10 pt-6 pb-10 shadow-2xl transition-all duration-500"
+        className="fixed top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-10 pt-6 pb-10 shadow-lg transition-all duration-500"
       >
-        <button
-          onClick={close}
-          className="absolute top-4 right-4 cursor-pointer"
-        >
-          <img src={x} alt="Закрыть окно" width={24} height={24} />
+        <button onClick={close} className="absolute top-4 right-4">
+          <div className="text-secondary hover:text-red-dark transition-colors duration-200">
+            <CloseIcon color="currentColor" size={24} />
+          </div>
         </button>
         <div>{children(close)}</div>
       </div>
