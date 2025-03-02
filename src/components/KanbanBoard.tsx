@@ -54,10 +54,17 @@ export default function KanbanBoard() {
   };
 
   const handleUpdateTask = (
-    taskId: string,
     columnId: string,
+    taskId: string,
     content: string,
-  ) => {};
+  ) => {
+    setTasks((prev) => ({
+      ...prev,
+      [columnId]: prev[columnId].map((task) =>
+        task.id === taskId ? { ...task, content } : task,
+      ),
+    }));
+  };
 
   return (
     <TaskProvider

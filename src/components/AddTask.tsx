@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import x from '../assets/icons/x.svg';
 import check from '../assets/icons/check.svg';
 import { useTaskContext } from '../context/TaskContext';
@@ -8,6 +8,7 @@ interface AddTaskProps {
   onCancel: () => void;
   onAdd: () => void;
   columnId: string;
+  taskId: string;
 }
 
 export function AddTask({
@@ -15,23 +16,36 @@ export function AddTask({
   onCancel,
   onAdd,
   columnId,
+  taskId,
 }: AddTaskProps) {
   const [content, setContent] = useState(initialContent);
-  const { onAddTask } = useTaskContext();
+  const { onAddTask, onUpdateTask } = useTaskContext();
+  const ref = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = () => {
     if (!content.trim()) return;
 
-    onAddTask(columnId, content);
+    if (taskId) {
+      onUpdateTask(columnId, taskId, content);
+    } else {
+      onAddTask(columnId, content);
+    }
 
     setContent('');
     onAdd();
   };
 
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, []);
+
   return (
     <div className="relative bg-white">
       <textarea
         value={content}
+        ref={ref}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Введите текст..."
         className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border p-2 pr-6 outline-0 focus:border"
@@ -41,7 +55,12 @@ export function AddTask({
           <img src={x} alt="Отменить" width={20} height={20} />
         </button>
         <button onClick={handleSubmit} className="cursor-pointer">
-          <img src={check} alt="Добавить" width={20} height={20} />
+          <img
+            src={check}
+            alt={taskId ? 'Сохранить' : 'Добавить'}
+            width={20}
+            height={20}
+          />
         </button>
       </div>
     </div>

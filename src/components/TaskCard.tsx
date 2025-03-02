@@ -5,6 +5,8 @@ import { DropDownMenu } from './DropDownMenu';
 import Modal from './Modal';
 import ConfirmDelete from './ConfirmDelete';
 import { useTaskContext } from '../context/TaskContext';
+import { useState } from 'react';
+import { AddTask } from './AddTask';
 
 interface TaskCardProps {
   task: Task;
@@ -12,8 +14,23 @@ interface TaskCardProps {
 }
 
 export default function TaskCard({ task, columnId }: TaskCardProps) {
-  const { id: taskId, content } = task;
+  const [isEditing, setIsEditing] = useState(false);
   const { onDeleteTask } = useTaskContext();
+  const { id: taskId, content } = task;
+
+  if (isEditing) {
+    return (
+      <div>
+        <AddTask
+          columnId={columnId}
+          initialContent={task.content}
+          taskId={task.id}
+          onCancel={() => setIsEditing(false)}
+          onAdd={() => setIsEditing(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="border-gray mb-2 flex justify-between rounded-lg border bg-white text-start hover:shadow-lg">
@@ -22,8 +39,12 @@ export default function TaskCard({ task, columnId }: TaskCardProps) {
       <Modal>
         <DropDownMenu>
           <DropDownMenu.Toggle id={taskId} />
+
           <DropDownMenu.List id={taskId}>
-            <DropDownMenu.ListItem icon={edit} onClick={() => {}}>
+            <DropDownMenu.ListItem
+              icon={edit}
+              onClick={() => setIsEditing(true)}
+            >
               Редактировать
             </DropDownMenu.ListItem>
 
