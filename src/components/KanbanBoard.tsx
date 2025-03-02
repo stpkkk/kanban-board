@@ -44,11 +44,18 @@ export default function KanbanBoard() {
     columnId: string,
     taskId: string,
     content: string,
-  ) => {};
+  ) => {
+    setTasks((prev) => ({
+      ...prev,
+      [columnId]: prev[columnId].filter((task) => task.id !== taskId),
+    }));
+
+    alert(`Задача ${content} удалена!`);
+  };
 
   const handleUpdateTask = (
-    columnId: string,
     taskId: string,
+    columnId: string,
     content: string,
   ) => {};
 

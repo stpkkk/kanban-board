@@ -69,7 +69,7 @@ const Window = ({ children, name }: WindowProps) => {
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[4px] transition-all duration-500">
       <div
         ref={modalRef}
-        className="fixed top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-10 py-6 transition-all duration-500"
+        className="fixed top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-10 pt-6 pb-10 shadow-2xl transition-all duration-500"
       >
         <button
           onClick={close}

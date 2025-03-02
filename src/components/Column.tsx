@@ -33,7 +33,7 @@ export function Column({ column, tasks }: ColumnProps) {
       <div className="custom-scroll mr-[3.6px] h-full overflow-y-auto p-2">
         <div className="h-[564px]">
           {tasks.map((task) => (
-            <TaskCard task={task} key={task.id} />
+            <TaskCard task={task} columnId={column.id} key={task.id} />
           ))}
           {isAdding ? (
             <AddTask

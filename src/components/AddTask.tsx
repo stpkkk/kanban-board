@@ -41,7 +41,7 @@ export function AddTask({
           <img src={x} alt="Отменить" width={20} height={20} />
         </button>
         <button onClick={handleSubmit} className="cursor-pointer">
-          <img src={check} alt="Сохранить" width={20} height={20} />
+          <img src={check} alt="Добавить" width={20} height={20} />
         </button>
       </div>
     </div>

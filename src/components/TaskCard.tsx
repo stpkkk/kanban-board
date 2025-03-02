@@ -4,21 +4,25 @@ import trash from '../assets/icons/trash.svg';
 import { DropDownMenu } from './DropDownMenu';
 import Modal from './Modal';
 import ConfirmDelete from './ConfirmDelete';
+import { useTaskContext } from '../context/TaskContext';
 
 interface TaskCardProps {
   task: Task;
+  columnId: string;
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
-  const { id, content } = task;
+export default function TaskCard({ task, columnId }: TaskCardProps) {
+  const { id: taskId, content } = task;
+  const { onDeleteTask } = useTaskContext();
 
   return (
     <div className="border-gray mb-2 flex justify-between rounded-lg border bg-white text-start hover:shadow-lg">
       <p className="overflow-hidden p-2">{content}</p>
+
       <Modal>
         <DropDownMenu>
-          <DropDownMenu.Toggle id={id} />
-          <DropDownMenu.List id={id}>
+          <DropDownMenu.Toggle id={taskId} />
+          <DropDownMenu.List id={taskId}>
             <DropDownMenu.ListItem icon={edit} onClick={() => {}}>
               Редактировать
             </DropDownMenu.ListItem>
@@ -37,8 +41,7 @@ export default function TaskCard({ task }: TaskCardProps) {
           {(closeModal) => (
             <ConfirmDelete
               content={content}
-              // disabled={isDeleting}
-              // onConfirm={() => deleteTask(id)}
+              onConfirm={() => onDeleteTask(columnId, taskId, content)}
               onCloseModal={closeModal}
             />
           )}
