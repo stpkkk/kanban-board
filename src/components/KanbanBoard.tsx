@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd';
+import { ToastContainer, toast } from 'react-toastify';
 import { TaskProvider } from '../context/TaskContext';
 import { Column } from './Column';
 import { ColumnType } from '../types/column';
 import { Task } from '../types/task';
+import Toast from './Toast';
 
 const initialColumns: ColumnType[] = [
   { id: 'approval', title: 'На согласовании', color: 'pink' },
@@ -25,10 +27,8 @@ export default function KanbanBoard() {
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
-    // If there's no destination, we don't need to do anything
     if (!destination) return;
 
-    // If the source and destination are the same, we don't need to update anything
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
@@ -52,6 +52,15 @@ export default function KanbanBoard() {
     newTasks[destination.droppableId].splice(destination.index, 0, movedTask);
 
     setTasks(newTasks);
+
+    if (source.droppableId !== destination.droppableId) {
+      toast.success(
+        <Toast
+          title={`Задача перенесена в «${destColumn.title}»`}
+          content={movedTask.content}
+        />,
+      );
+    }
   };
 
   const handleAddTask = (columnId: string, content: string) => {
@@ -68,6 +77,13 @@ export default function KanbanBoard() {
       ...prev,
       [columnId]: [...prev[columnId], newTask],
     }));
+
+    toast.success(
+      <Toast
+        title={`Задача создана в «${column.title}»`}
+        content={newTask.content}
+      />,
+    );
   };
 
   const handleDeleteTask = (
@@ -80,7 +96,7 @@ export default function KanbanBoard() {
       [columnId]: prev[columnId].filter((task) => task.id !== taskId),
     }));
 
-    alert(`Задача ${content} удалена!`);
+    toast.success(<Toast title="Задача удалена" content={content} />);
   };
 
   const handleUpdateTask = (
@@ -88,14 +104,26 @@ export default function KanbanBoard() {
     taskId: string,
     content: string,
   ) => {
+    const originalTask = tasks[columnId].find((task) => task.id === taskId);
+
+    if (!originalTask) return;
+
+    const updatedTask = { ...originalTask, content };
+
     setTasks((prev) => ({
       ...prev,
       [columnId]: prev[columnId].map((task) =>
-        task.id === taskId ? { ...task, content } : task,
+        task.id === taskId ? updatedTask : task,
       ),
     }));
-  };
 
+    toast.success(
+      <Toast
+        title={`Задача с ${originalTask.content} изменена на`}
+        content={updatedTask.content}
+      />,
+    );
+  };
   return (
     <TaskProvider
       value={{
@@ -119,6 +147,18 @@ export default function KanbanBoard() {
           ))}
         </div>
       </DragDropContext>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </TaskProvider>
   );
 }
