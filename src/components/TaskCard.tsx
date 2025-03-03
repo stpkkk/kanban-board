@@ -7,20 +7,26 @@ import Modal from './Modal';
 import ConfirmDelete from './ConfirmDelete';
 import { AddTask } from './AddTask';
 import { Task } from '../types/task';
+import { DraggableProvided } from '@hello-pangea/dnd';
 
 interface TaskCardProps {
   task: Task;
   columnId: string;
+  provided: DraggableProvided;
 }
 
-export default function TaskCard({ task, columnId }: TaskCardProps) {
+export default function TaskCard({ task, columnId, provided }: TaskCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const { onDeleteTask } = useTaskContext();
   const { id: taskId, content } = task;
 
   if (isEditing) {
     return (
-      <div>
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
         <AddTask
           columnId={columnId}
           initialContent={task.content}
@@ -33,7 +39,12 @@ export default function TaskCard({ task, columnId }: TaskCardProps) {
   }
 
   return (
-    <div className="border-gray mb-2 flex justify-between rounded-lg border bg-white text-start hover:shadow-lg">
+    <div
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      className="border-gray mb-2 flex justify-between rounded-lg border bg-white text-start hover:shadow-lg"
+    >
       <p className="overflow-hidden p-2">{content}</p>
 
       <Modal>

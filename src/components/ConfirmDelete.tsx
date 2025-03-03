@@ -8,7 +8,7 @@ function ConfirmDelete({ content, onConfirm, onCloseModal }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <h3 className="text-2xl leading-[30px] font-semibold">Удалить задачу?</h3>
-      <p>{content}</p>
+      <p className="overflow-hidden">{content}</p>
 
       <div className="flex justify-center gap-4">
         <button

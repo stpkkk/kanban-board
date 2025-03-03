@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd';
 import { TaskProvider } from '../context/TaskContext';
 import { Column } from './Column';
 import { ColumnType } from '../types/column';
@@ -22,7 +22,37 @@ export default function KanbanBoard() {
     revision: [],
   });
 
-  function onDragEnd() {}
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+
+    // If there's no destination, we don't need to do anything
+    if (!destination) return;
+
+    // If the source and destination are the same, we don't need to update anything
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
+
+    const sourceColumn = initialColumns.find(
+      (col) => col.id === source.droppableId,
+    );
+    const destColumn = initialColumns.find(
+      (col) => col.id === destination.droppableId,
+    );
+
+    if (!sourceColumn || !destColumn) return;
+
+    const newTasks = { ...tasks };
+
+    const [movedTask] = newTasks[source.droppableId].splice(source.index, 1);
+
+    newTasks[destination.droppableId].splice(destination.index, 0, movedTask);
+
+    setTasks(newTasks);
+  };
 
   const handleAddTask = (columnId: string, content: string) => {
     const column = initialColumns.find((col) => col.id === columnId);
@@ -81,8 +111,8 @@ export default function KanbanBoard() {
               {(provided) => (
                 <Column
                   column={column}
-                  provided={provided}
                   tasks={tasks[column.id]}
+                  provided={provided}
                 />
               )}
             </Droppable>

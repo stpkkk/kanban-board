@@ -22,34 +22,51 @@ export function AddTask({
   const { onAddTask, onUpdateTask } = useTaskContext();
   const ref = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = () => {
-    if (!content.trim()) return;
-
-    if (taskId) {
-      onUpdateTask(columnId, taskId, content);
-    } else {
-      onAddTask(columnId, content);
-    }
-
-    setContent('');
-    onAdd();
-  };
-
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
     }
   }, []);
 
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.height = 'auto';
+      ref.current.style.height = `${ref.current.scrollHeight}px`;
+    }
+  }, [content]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (!content.trim()) return;
+
+    if (taskId) {
+      onUpdateTask(columnId, taskId, content.trim());
+    } else {
+      onAddTask(columnId, content.trim());
+    }
+
+    setContent('');
+    onAdd();
+  };
+
   return (
     <div className="relative bg-white">
       <textarea
         value={content}
         ref={ref}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={handleChange}
         placeholder="Введите текст..."
-        className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border p-2 pr-6 outline-0 focus:border"
+        className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border p-2 pr-6 pb-4 outline-0 focus:border"
+        style={{
+          lineHeight: '1.5em',
+          overflow: 'hidden',
+          resize: 'none',
+        }}
       />
+
       <div className="absolute top-0 right-0 z-50 flex flex-col p-1">
         <button onClick={onCancel} className="text-red-dark">
           <CloseIcon color="currentColor" size={20} />
