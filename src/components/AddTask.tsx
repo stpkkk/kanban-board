@@ -22,19 +22,6 @@ export function AddTask({
   const { onAddTask, onUpdateTask } = useTaskContext();
   const ref = useRef<HTMLTextAreaElement>(null);
 
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.focus();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.style.height = 'auto';
-      ref.current.style.height = `${ref.current.scrollHeight}px`;
-    }
-  }, [content]);
-
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
@@ -52,14 +39,46 @@ export function AddTask({
     onAdd();
   };
 
+  // Handle keyboard shortcuts
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit();
+    }
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      onCancel();
+    }
+  };
+
+  //Handle focus
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+      // Place cursor at the end of the text
+      const length = ref.current.value.length;
+      ref.current.setSelectionRange(length, length);
+    }
+  }, []);
+
+  //Handle height of textarea
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.height = 'auto';
+      ref.current.style.height = `${ref.current.scrollHeight}px`;
+    }
+  }, [content]);
+
   return (
     <div className="relative">
       <textarea
         value={content}
         ref={ref}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder="Введите текст..."
-        className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border bg-white p-2 pr-6 pb-4 outline-0 focus:border"
+        className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border bg-white p-2 pr-6 pb-4 break-words outline-0 focus:border"
         style={{
           lineHeight: '1.5em',
           overflow: 'hidden',
@@ -71,10 +90,11 @@ export function AddTask({
         <button onClick={onCancel} className="text-red-dark">
           <CloseIcon color="currentColor" size={20} />
         </button>
+
         <button onClick={handleSubmit}>
           <img
             src={check}
-            alt={taskId ? 'Сохранить' : 'Добавить'}
+            alt={taskId ? 'Редактировать' : 'Добавить'}
             width={20}
             height={20}
           />

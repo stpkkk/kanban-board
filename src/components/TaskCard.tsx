@@ -45,7 +45,7 @@ export default function TaskCard({ task, columnId, provided }: TaskCardProps) {
       {...provided.dragHandleProps}
       className="border-gray mb-2 flex justify-between rounded-lg border bg-white text-start hover:shadow-lg"
     >
-      <p className="overflow-hidden p-2">{content}</p>
+      <p className="overflow-hidden p-2 break-words">{content}</p>
 
       <Modal>
         <DropDownMenu>
