@@ -53,13 +53,13 @@ export function AddTask({
   };
 
   return (
-    <div className="relative bg-white">
+    <div className="relative">
       <textarea
         value={content}
         ref={ref}
         onChange={handleChange}
         placeholder="Введите текст..."
-        className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border p-2 pr-6 pb-4 outline-0 focus:border"
+        className="text-secondary focus:border-border-blue custom-scroll min-h-[52px] w-full rounded-lg border bg-white p-2 pr-6 pb-4 outline-0 focus:border"
         style={{
           lineHeight: '1.5em',
           overflow: 'hidden',
