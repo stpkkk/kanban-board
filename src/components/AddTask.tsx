@@ -71,7 +71,7 @@ export function AddTask({
   }, [content]);
 
   return (
-    <div className="relative">
+    <form className="relative">
       <textarea
         value={content}
         ref={ref}
@@ -100,6 +100,6 @@ export function AddTask({
           />
         </button>
       </div>
-    </div>
+    </form>
   );
 }
